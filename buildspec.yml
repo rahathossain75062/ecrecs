@@ -8,7 +8,7 @@ phases:
   pre_build:
     commands:
       - echo "Logging in to Amazon ECR..."
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 026090542851.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 831357037758.dkr.ecr.us-east-2.amazonaws.com
   build:
     commands:
       - echo "Building the Docker image..."
@@ -16,13 +16,13 @@ phases:
       - echo "Listing built Docker images..."
       - docker images
       - echo "Tagging Docker image..."
-      - docker tag test:$IMAGE_TAG 026090542851.dkr.ecr.us-east-1.amazonaws.com/test:$IMAGE_TAG
+      - docker tag $IMAGE_TAG 831357037758.dkr.ecr.us-east-2.amazonaws.com/ecr_test_repo:$IMAGE_TAG
   post_build:
     commands:
       - echo "Pushing Docker image to Amazon ECR..."
-      - docker push 026090542851.dkr.ecr.us-east-1.amazonaws.com/test:$IMAGE_TAG
+      - docker push 831357037758.dkr.ecr.us-east-2.amazonaws.com/ecr_test_repo:$IMAGE_TAG
       - echo "Creating imagedefinitions.json file..."
-      - printf '[{"name":"test","imageUri":"026090542851.dkr.ecr.us-east-1.amazonaws.com/test:%s"}]' $IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"test","imageUri":"831357037758.dkr.ecr.us-east-2.amazonaws.com/ecr_test_repo:%s"}]' $IMAGE_TAG > imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json
